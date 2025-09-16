@@ -4,23 +4,23 @@ const carbonCreditSchema = new mongoose.Schema({
   seller: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'Seller is required']
+    // required: [true, 'Seller is required']
   },
   title: {
     type: String,
-    required: [true, 'Title is required'],
+    // required: [true, 'Title is required'],
     trim: true,
     maxlength: [100, 'Title cannot exceed 100 characters']
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
+    // required: [true, 'Description is required'],
     trim: true,
     maxlength: [1000, 'Description cannot exceed 1000 characters']
   },
   energyType: {
     type: String,
-    required: [true, 'Energy type is required'],
+    // required: [true, 'Energy type is required'],
     enum: {
       values: ['wind', 'solar', 'hydro', 'geothermal', 'biomass', 'nuclear', 'other'],
       message: 'Energy type must be one of: wind, solar, hydro, geothermal, biomass, nuclear, other'
@@ -29,7 +29,7 @@ const carbonCreditSchema = new mongoose.Schema({
   projectLocation: {
     country: {
       type: String,
-      required: [true, 'Country is required'],
+      // required: [true, 'Country is required'],
       trim: true
     },
     state: {
@@ -47,18 +47,18 @@ const carbonCreditSchema = new mongoose.Schema({
   },
   totalCredits: {
     type: Number,
-    required: [true, 'Total credits is required'],
+    // required: [true, 'Total credits is required'],
     min: [1, 'Total credits must be at least 1'],
     max: [1000000, 'Total credits cannot exceed 1,000,000']
   },
   availableCredits: {
     type: Number,
-    required: [true, 'Available credits is required'],
+    // required: [true, 'Available credits is required'],
     min: [0, 'Available credits cannot be negative']
   },
   pricePerCredit: {
     type: Number,
-    required: [true, 'Price per credit is required'],
+    // required: [true, 'Price per credit is required'],
     min: [0.01, 'Price per credit must be at least $0.01'],
     max: [1000, 'Price per credit cannot exceed $1000']
   },
@@ -70,50 +70,50 @@ const carbonCreditSchema = new mongoose.Schema({
   certification: {
     standard: {
       type: String,
-      required: [true, 'Certification standard is required'],
+      // required: [true, 'Certification standard is required'],
       enum: ['VCS', 'Gold Standard', 'CAR', 'ACR', 'CDM', 'Other']
     },
     certifier: {
       type: String,
-      required: [true, 'Certifier is required'],
+      // required: [true, 'Certifier is required'],
       trim: true
     },
     certificateNumber: {
       type: String,
-      required: [true, 'Certificate number is required'],
+      // required: [true, 'Certificate number is required'],
       trim: true
     },
     issueDate: {
       type: Date,
-      required: [true, 'Issue date is required']
+      // required: [true, 'Issue date is required']
     },
     expiryDate: {
       type: Date,
-      required: [true, 'Expiry date is required']
+      // required: [true, 'Expiry date is required']
     }
   },
   projectDetails: {
     projectName: {
       type: String,
-      required: [true, 'Project name is required'],
+      // required: [true, 'Project name is required'],
       trim: true
     },
     projectType: {
       type: String,
-      required: [true, 'Project type is required'],
+      // required: [true, 'Project type is required'],
       enum: ['renewable-energy', 'energy-efficiency', 'forest-conservation', 'reforestation', 'other']
     },
     startDate: {
       type: Date,
-      required: [true, 'Project start date is required']
+      // required: [true, 'Project start date is required']
     },
     endDate: {
       type: Date,
-      required: [true, 'Project end date is required']
+      // required: [true, 'Project end date is required']
     },
     estimatedCO2Reduction: {
       type: Number,
-      required: [true, 'Estimated CO2 reduction is required'],
+      // required: [true, 'Estimated CO2 reduction is required'],
       min: [0, 'CO2 reduction cannot be negative']
     },
     unit: {

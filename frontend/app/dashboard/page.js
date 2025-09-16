@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { LoadingSkeleton } from '@/components/ui/Loading'
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -15,7 +16,17 @@ import {
   ArrowRight,
   Eye,
   Star,
-  Calendar
+  Calendar,
+  Activity,
+  Users,
+  Award,
+  BarChart3,
+  PieChart,
+  Target,
+  Zap,
+  Globe,
+  Shield,
+  Check
 } from 'lucide-react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import { creditsAPI, transactionsAPI } from '@/lib/api'
@@ -76,89 +87,108 @@ export default function DashboardPage() {
   const isSeller = user?.role === 'seller'
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
+      <div className="container-responsive py-6 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.firstName}!
-          </h1>
-          <p className="text-gray-600 mt-2">
-            {isSeller 
-              ? 'Manage your carbon credit listings and track your sales performance.'
-              : 'Track your carbon credit purchases and environmental impact.'
-            }
-          </p>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex-mobile items-center justify-between">
+            <div>
+              <h1 className="heading-responsive font-bold text-gray-900">
+                Welcome back, {user?.firstName}! 👋
+              </h1>
+              <p className="text-mobile text-gray-600 mt-2">
+                {isSeller 
+                  ? 'Manage your carbon credit listings and track your sales performance.'
+                  : 'Track your carbon credit purchases and environmental impact.'
+                }
+              </p>
+            </div>
+            <div className="flex space-x-3 mt-4 sm:mt-0">
+              <Button variant="outline" size="sm" className="button-mobile">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Analytics
+              </Button>
+              <Button size="sm" className="button-mobile">
+                <Plus className="h-4 w-4 mr-2" />
+                {isSeller ? 'List Credit' : 'Buy Credits'}
+              </Button>
+            </div>
+          </div>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid-mobile gap-6 mb-8">
             {[...Array(4)].map((_, index) => (
-              <Card key={index} className="animate-pulse">
-                <CardHeader>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-8 bg-gray-200 rounded w-1/2"></div>
-                </CardContent>
-              </Card>
+              <LoadingSkeleton key={index} className="h-32" />
             ))}
           </div>
         ) : (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid-mobile gap-6 mb-8">
               {isSeller ? (
                 <>
-                  <Card>
+                  <Card className="card-modern card-hover bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">Total Credits Listed</CardTitle>
-                      <Leaf className="h-4 w-4 text-muted-foreground" />
+                      <CardTitle className="text-sm font-medium text-green-700">Total Credits Listed</CardTitle>
+                      <div className="p-2 bg-green-100 rounded-lg">
+                        <Leaf className="h-4 w-4 text-green-600" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{formatNumber(stats.totalCredits || 0)}</div>
-                      <p className="text-xs text-muted-foreground">
+                      <div className="text-2xl font-bold text-green-900">{formatNumber(stats.totalCredits || 0)}</div>
+                      <p className="text-xs text-green-600 flex items-center mt-1">
+                        <Activity className="h-3 w-3 mr-1" />
                         {formatNumber(stats.totalListings || 0)} active listings
                       </p>
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="card-modern card-hover bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">Credits Sold</CardTitle>
-                      <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                      <CardTitle className="text-sm font-medium text-blue-700">Credits Sold</CardTitle>
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <TrendingUp className="h-4 w-4 text-blue-600" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{formatNumber(stats.totalSold || 0)}</div>
-                      <p className="text-xs text-muted-foreground">
+                      <div className="text-2xl font-bold text-blue-900">{formatNumber(stats.totalSold || 0)}</div>
+                      <p className="text-xs text-blue-600 flex items-center mt-1">
+                        <ShoppingCart className="h-3 w-3 mr-1" />
                         {formatNumber(stats.totalPurchases || 0)} transactions
                       </p>
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="card-modern card-hover bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                      <DollarSign className="h-4 w-4 text-muted-foreground" />
+                      <CardTitle className="text-sm font-medium text-purple-700">Total Revenue</CardTitle>
+                      <div className="p-2 bg-purple-100 rounded-lg">
+                        <DollarSign className="h-4 w-4 text-purple-600" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{formatCurrency(stats.soldValue || 0)}</div>
-                      <p className="text-xs text-muted-foreground">
+                      <div className="text-2xl font-bold text-purple-900">{formatCurrency(stats.soldValue || 0)}</div>
+                      <p className="text-xs text-purple-600 flex items-center mt-1">
+                        <Target className="h-3 w-3 mr-1" />
                         {formatCurrency(stats.availableValue || 0)} available
                       </p>
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="card-modern card-hover bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">Average Rating</CardTitle>
-                      <Star className="h-4 w-4 text-muted-foreground" />
+                      <CardTitle className="text-sm font-medium text-amber-700">Average Rating</CardTitle>
+                      <div className="p-2 bg-amber-100 rounded-lg">
+                        <Star className="h-4 w-4 text-amber-600" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">
+                      <div className="text-2xl font-bold text-amber-900">
                         {stats.averageRating ? stats.averageRating.toFixed(1) : 'N/A'}
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-amber-600 flex items-center mt-1">
+                        <Eye className="h-3 w-3 mr-1" />
                         {formatNumber(stats.totalViews || 0)} total views
                       </p>
                     </CardContent>
@@ -166,14 +196,17 @@ export default function DashboardPage() {
                 </>
               ) : (
                 <>
-                  <Card>
+                  <Card className="card-modern card-hover bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">Total Purchases</CardTitle>
-                      <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+                      <CardTitle className="text-sm font-medium text-blue-700">Total Purchases</CardTitle>
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <ShoppingCart className="h-4 w-4 text-blue-600" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{formatNumber(stats.totalTransactions || 0)}</div>
-                      <p className="text-xs text-muted-foreground">
+                      <div className="text-2xl font-bold text-blue-900">{formatNumber(stats.totalTransactions || 0)}</div>
+                      <p className="text-xs text-blue-600 flex items-center mt-1">
+                        <Check className="h-3 w-3 mr-1" />
                         {formatNumber(stats.completedTransactions || 0)} completed
                       </p>
                     </CardContent>
